@@ -22,9 +22,8 @@ Table of contents
 
 - `This is an existing entry! <#table-of-contents>`_
 .. BEGIN ANSIBLE DOCSMITH TOC
-- `DocSmith for Ansible ``example-role-simple`` README (for testing) <#docsmith-for-ansible-example-role-simple-readme-for-testing>`__
-  - `Table of contents <#table-of-contents>`__
 - `Role variables <#role-variables>`__
+
   - ```acmesh_state`` <#acmesh_state>`__
   - ```acmesh_domain`` <#acmesh_domain>`__
   - ```acmesh_alt_names`` <#acmesh_alt_names>`__
@@ -34,14 +33,14 @@ Table of contents
   - ```acmesh_webroot_path`` <#acmesh_webroot_path>`__
   - ```acmesh_dns_provider`` <#acmesh_dns_provider>`__
   - ```acmesh_config`` <#acmesh_config>`__
+
     - ```force_renewal`` <#force_renewal>`__
     - ```key_size`` <#key_size>`__
+
   - ```acmesh_hooks`` <#acmesh_hooks>`__
     - ```pre_issue`` <#pre_issue>`__
     - ```post_issue`` <#post_issue>`__
     - ```deploy`` <#deploy>`__
-  - `License <#license>`__
-  - `Author Information <#author-information>`__
 .. END ANSIBLE DOCSMITH TOC
 - `License <#license>`_
 - `Author information <#author-information>`_
