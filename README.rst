@@ -14,11 +14,6 @@ such as:
    notice during validation.
 -  **At least one unknown key,** which results in a warning.
 
-.. toctree::
-   :maxdepth: 3
-   :caption: Contents
-
-
 This README file is also a dummy file to show that existing content
 outside the ``ANSIBLE DOCSMITH`` markers will not be touched.
 
@@ -27,34 +22,38 @@ Table of contents
 
 - `This is an existing entry! <#table-of-contents>`_
 .. BEGIN ANSIBLE DOCSMITH TOC
-- `Role variables <#role-variables>`__
 
-  - ```acmesh_state`` <#acmesh_state>`__
-  - ```acmesh_domain`` <#acmesh_domain>`__
-  - ```acmesh_alt_names`` <#acmesh_alt_names>`__
-  - ```acmesh_email`` <#acmesh_email>`__
-  - ```acmesh_staging`` <#acmesh_staging>`__
-  - ```acmesh_challenge_type`` <#acmesh_challenge_type>`__
-  - ```acmesh_webroot_path`` <#acmesh_webroot_path>`__
-  - ```acmesh_dns_provider`` <#acmesh_dns_provider>`__
-  - ```acmesh_config`` <#acmesh_config>`__
 
-    - ```force_renewal`` <#force_renewal>`__
-    - ```key_size`` <#key_size>`__
+- `Role variables <#variable-role-variables>`__
+  - `acmesh_state <#variable-acmesh_state>`__
+  - `acmesh_domain <#variable-acmesh_domain>`__
+  - `acmesh_alt_names <#variable-acmesh_alt_names>`__
+  - `acmesh_email <#variable-acmesh_email>`__
+  - `acmesh_staging <#variable-acmesh_staging>`__
+  - `acmesh_challenge_type <#variable-acmesh_challenge_type>`__
+  - `acmesh_webroot_path <#variable-acmesh_webroot_path>`__
+  - `acmesh_dns_provider <#variable-acmesh_dns_provider>`__
+  - `acmesh_config <#variable-acmesh_config>`__
+    - `force_renewal <#variable-force_renewal>`__
+    - `key_size <#variable-key_size>`__
+  - `acmesh_hooks <#variable-acmesh_hooks>`__
+    - `pre_issue <#variable-pre_issue>`__
+    - `post_issue <#variable-post_issue>`__
+    - `deploy <#variable-deploy>`__
 
-  - ```acmesh_hooks`` <#acmesh_hooks>`__
-    - ```pre_issue`` <#pre_issue>`__
-    - ```post_issue`` <#post_issue>`__
-    - ```deploy`` <#deploy>`__
+
 .. END ANSIBLE DOCSMITH TOC
 - `License <#license>`_
 - `Author information <#author-information>`_
 
 .. BEGIN ANSIBLE DOCSMITH MAIN
+
 Role variables
 ==============
 
 The following variables can be configured for this role:
+
+.. _variable-acmesh_state:
 
 ``acmesh_state``
 ----------------
@@ -72,6 +71,8 @@ stopping services, restoring modified settings, …
 :Choices: ``present``, ``absent``
 
 
+.. _variable-acmesh_domain:
+
 ``acmesh_domain``
 -----------------
 
@@ -80,6 +81,8 @@ Primary domain name for the certificate. This is <em>silly</em> HTML which shoul
 :Type: ``str``
 :Required: Yes
 
+
+.. _variable-acmesh_alt_names:
 
 ``acmesh_alt_names``
 --------------------
@@ -94,6 +97,8 @@ A Subject Alternative Name (SAN) in certificates allows multiple domain names or
 :List Elements: ``str``
 
 
+.. _variable-acmesh_email:
+
 ``acmesh_email``
 ----------------
 
@@ -102,6 +107,8 @@ Email address for ACME account registration
 :Type: ``str``
 :Required: Yes
 
+
+.. _variable-acmesh_staging:
 
 ``acmesh_staging``
 ------------------
@@ -112,6 +119,8 @@ Use Let's Encrypt staging environment for testing
 :Required: No
 :Default: `false`
 
+
+.. _variable-acmesh_challenge_type:
 
 ``acmesh_challenge_type``
 -------------------------
@@ -124,6 +133,8 @@ ACME challenge type to use for domain validation
 :Choices: ``http-01``, ``dns-01``
 
 
+.. _variable-acmesh_webroot_path:
+
 ``acmesh_webroot_path``
 -----------------------
 
@@ -134,6 +145,8 @@ Path to webroot directory for HTTP-01 challenge
 :Default: `"/var/www/html"`
 
 
+.. _variable-acmesh_dns_provider:
+
 ``acmesh_dns_provider``
 -----------------------
 
@@ -143,6 +156,8 @@ DNS provider for DNS-01 challenge
 :Required: No
 :Choices: ``cloudflare``, ``route53``, ``digitalocean``
 
+
+.. _variable-acmesh_config:
 
 ``acmesh_config``
 -----------------
@@ -173,6 +188,8 @@ RSA key size in bits
 :Required: No
 :Default: `2048`
 
+
+.. _variable-acmesh_hooks:
 
 ``acmesh_hooks``
 ----------------
