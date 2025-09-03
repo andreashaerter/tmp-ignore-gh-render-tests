@@ -14,6 +14,11 @@ such as:
    notice during validation.
 -  **At least one unknown key,** which results in a warning.
 
+.. toctree::
+   :maxdepth: 3
+   :caption: Contents
+
+
 This README file is also a dummy file to show that existing content
 outside the ``ANSIBLE DOCSMITH`` markers will not be touched.
 
