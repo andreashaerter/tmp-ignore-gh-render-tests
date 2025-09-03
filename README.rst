@@ -17,8 +17,19 @@ such as:
 This README file is also a dummy file to show that existing content
 outside the ``ANSIBLE DOCSMITH`` markers will not be touched.
 
-Table of contents
------------------
+.. contents:: Table of Contents (how it should be used)
+   :depth: 3
+
+.. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   Unlike the ToC generation in Markdown, use something like
+
+     .. contents:: Table of Contents
+
+   whenever possible! This is a very rough fallback mechanism if your
+   reStructuredText (reST) renderer is very limited!
+
+Table of contents (fallback)
+----------------------------
 
 - `This is an existing entry! <#table-of-contents>`_
 
@@ -49,6 +60,9 @@ Table of contents
 
 - `License <#license>`_
 - `Author information <#author-information>`_
+
+.. !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 
 .. BEGIN ANSIBLE DOCSMITH MAIN
 
@@ -216,6 +230,7 @@ Command to run for certificate deployment
 
 
 .. END ANSIBLE DOCSMITH MAIN
+
 
 License
 -------
