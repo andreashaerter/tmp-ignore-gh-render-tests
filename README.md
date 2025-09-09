@@ -41,7 +41,7 @@ DocSmith works with roles in both [stand‑alone form](https://docs.ansible.com/
 - **Built-in validation:** Verifies that argument specs are complete, correct, and in sync with entry-point `defaults/`.
 - **Automation‑friendly:** Works seamlessly in CI/CD pipelines and pre‑commit hooks.
 
-
+<!-- BEGIN HUGO IGNORE -->invisiiiiblllle<!-- END HUGO IGNORE -->
 ## Installation<a id="installation"></a>
 
 [![PyPI version](https://badge.fury.io/py/ansible-docsmith.svg)](https://badge.fury.io/py/ansible-docsmith)
