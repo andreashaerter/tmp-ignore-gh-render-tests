@@ -53,6 +53,7 @@ DocSmith needs Python ≥ v3.11. It is available on [PyPI](https://pypi.org/proj
 ```bash
 uv tool install ansible-docsmith
 ```
+<!-- BEGIN FOUNDATA.COM IGNORE -->
 
 **Using `pip` or `pipx`:**
 
@@ -61,6 +62,7 @@ pip install ansible-docsmith
 pipx install ansible-docsmith
 ```
 
+<!-- END FOUNDATA.COM IGNORE -->
 
 ## Usage<a id="usage"></a>
 
