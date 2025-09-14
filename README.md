@@ -3,7 +3,7 @@
 
 **This project is *not* associated with [Red Hat](https://www.redhat.com/) nor the [Ansible project](https://ansible.com/).** Please [report any bugs or suggestions to us](./CONTRIBUTING.md), do NOT use the official Red Hat or Ansible support channels.
 
----
+---<!-- BEGIN HUGO IGNORE -->
 
 ## Heading with Custom ID (Extended Markdown Syntax) {#custom-id}
 
@@ -15,7 +15,7 @@ Link to this [heading][custom-id] using the MultiMarkdown syntax or just
 [custom-id].
 
 
-
+<!-- END HUGO IGNORE -->
 DocSmith is a documentation generator for Ansible roles. It reads a role's [`meta/argument_specs.yml`](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#specification-format) and produces up‑to‑date variable descriptions for the `README.md` as well as inline comment blocks for `defaults/main.yml` (or other role entry-point files).
 
 DocSmith works with roles in both [stand‑alone form](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html) and within [collections](https://docs.ansible.com/ansible/latest/collections_guide/index.html).
