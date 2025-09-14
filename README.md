@@ -148,7 +148,7 @@ ansible-docsmith generate /path/to/role --template-readme ./templates/my-readme.
 
 Template files must use the `.j2` extension (for example, `simple-readme.md.j2`) and follow Jinja2 syntax. Below is a basic example:
 
-```jinja2
+`````jinja2
 # {{ role_name | title }} Ansible Role
 
 {% if has_options %}
@@ -194,7 +194,7 @@ If you are creative, you may even maintain non-obvious parts of your `README.md`
     # {{ var_name }}: # {{ var_spec.description }}
 {% endif %}
 {% endfor %}
-```
+`````
 
 ## Author Information
 
