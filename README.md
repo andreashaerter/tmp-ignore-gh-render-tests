@@ -1,3 +1,64 @@
+---
+title: "Ansible (Galaxy) Skeletons"
+slug: "ansible-skeletons"
+page:
+  showMeta: false
+  showTitle: true
+list:
+  showMeta: false
+showToc: true
+tableOfContents: true
+
+
+# project specific front matter
+
+project:
+  description: "Short description, markdown allowed. Will also be used in the overview"
+  status: "stable" # stable|beta|archived
+  licensing:
+    primary: "GPL-3.0-or-later" # use SPDX id, e.g. MIT, Apache-2.0
+    ReuseToml: "https://github.com/foundata/hugo-theme-govanity/blob/main/REUSE.toml"
+  logo:
+     bitmap:
+     svg:
+     square:
+
+  sources:
+    - label: "GitHub"
+      url: "https://github.com/foundata/ansible-docsmith"
+      primary: true
+    - label: "Codeberg"
+      url: "https://codeberg.org/foundata/ansible-docsmith"
+    - label: "openCode"
+      url: "https://gitlab.opencode.de/foundata/ansible-docsmith"
+
+  releases: # optional registries (add only if relevant)
+    - label: "GitHub Releases"
+      url: "https://github.com/foundata/ansible-docsmith/releases"
+      primary: true
+    - label: "Ansible Galaxy"
+      url: "https://galaxy.ansible.com/foundata/docsmith"
+
+  docs:
+    - label: "README.md"
+      url: "https://github.com/foundata/ansible-docsmith/blob/main/README.md"
+    - label: "CHANGELOG.md"
+      url: "https://github.com/foundata/ansible-docsmith/blob/main/CHANGELOG.md"
+
+  issues:
+    - label: "GitHub Issues"
+      url: "https://github.com/foundata/ansible-docsmith/issues"
+      primary: true
+
+  maintainers:
+    - label: "foundata"
+      url: "https://foundata.com"
+      #email: office@foundata.com
+
+  funding:
+    - label: "GitHub Sponsors"
+      url: "https://github.com/sponsors/foundata"
+---
 
 # DocSmith for Ansible: automating role documentation (using `argument_specs.yml`)
 
@@ -184,7 +245,7 @@ this is not supported
 
 If you are creative, you may even maintain non-obvious parts of your `README.md` between the markers:
 
-~~~jinja2
+~~~jinja
 ## Example Playbook
 
 ```yaml
@@ -210,6 +271,13 @@ If you are creative, you may even maintain non-obvious parts of your `README.md`
 {% endfor %}
 {% endif %}
 ~~~
+
+
+This is text
+
+```unsupportedLang
+FOO=bar
+```
 
 
 ## Licensing, copyright<a id="licensing-copyright"></a>
