@@ -1,28 +1,22 @@
-# Ansible (Galaxy) Skeletons
+# DocSmith for Ansible
 
-**Blueprints for `ansible-galaxy role|collection init`**
+**Automating role documentation (using `argument_specs.yml`)**
 
-Use **Ansible Skeletons** to bootstrap your roles or collections using opinionated templates for new Ansible [roles](https://docs.ansible.com/ansible/latest/user_guide/playbooks_reuse_roles.html) and [collections](https://docs.ansible.com/ansible/devel/dev_guide/developing_collections.html). Start projects with a clean structure and proven best practices from day one.
-
-All skeletons follow several guidelines and best practices:
-
-* [foundata: Ansible style guide](https://github.com/foundata/guidelines/blob/master/ansible-style-guide.md)
-* [Red Hat's Coding Style Good Practices for Ansible](https://github.com/redhat-cop/automation-good-practices/blob/main/coding_style/README.adoc#ansible-guidelines)
-* [Best Practices of the Ansible User guide](https://docs.ansible.com/ansible/latest/user_guide/playbooks_best_practices.html)
+DocSmith is a documentation generator. It reads a role's [`meta/argument_specs.yml`](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#specification-format) and produces up‑to‑date variable descriptions for the `README.md` as well as inline comment blocks for `defaults/main.yml` (or other role entry-point files). It works with roles in both [stand‑alone form](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html) and within [collections](https://docs.ansible.com/ansible/latest/collections_guide/index.html).
 
 
 <div align="center" id="project-readme-header">
 <br>
 <br>
 
-<img src="./assets/images/logos/ansible-skeletons.svg" alt="Logo: Ansible (Galaxy) Skeletons" height="128" />
+<img src="./assets/images/logos/ansible-docsmith.svg" alt="Logo: DocSmith for Ansible" height="128" />
 
 <br>
 <br>
 
 **⭐ Found this useful? Support open-source and star this project:**
 
-[![GitHub repository](https://img.shields.io/github/stars/foundata/ansible-skeletons.svg)](https://github.com/foundata/ansible-skeletons)
+[![GitHub repository](https://img.shields.io/github/stars/foundata/ansible-docsmith.svg)](https://github.com/foundata/ansible-docsmith)
 
 <br>
 </div>
@@ -30,176 +24,242 @@ All skeletons follow several guidelines and best practices:
 
 ## Table of contents<a id="toc"></a>
 
+- [Demo](#demo)
+  - [Roles using DocSmith](#demo-roles)
+  - [Screenshots](#demo-screenshots)
 - [Features](#features)
-- [Examples](#examples)
+- [Installation](#installation)
 - [Usage](#usage)
-- [Description of provided skeletons](#content)
-  - [`collection_default`](#collection_default)
-  - [`role_default`](#role_default)
-- [Compatibility](#compatibility)
-- [Contributing](#contributing)
+  - [Preparations](#usage-preparations)
+  - [Generate or update documentation](#usage-generate)
+  - [Validate `argument_specs.yml` and `/defaults`](#usage-validate)
+  - [Custom templates](#usage-custom-templates)
 - [Licensing, copyright](#licensing-copyright)
   - [Trademarks](#trademarks)
 - [Author information](#author-information)
 
+## Demo<a id="demo"></a>
+
+### Roles using DocSmith<a id="demo-roles"></a>
+
+* Ansible role: `foundata.acmesh.run`:
+  1. [`README.md` with generated variable documentation](https://github.com/foundata/ansible-collection-acmesh/blob/main/roles/run/README.md#role-variables)
+  2. [`defaults/main.yml` entry point with generated YAML comments](https://github.com/foundata/ansible-collection-acmesh/blob/main/roles/run/defaults/main.yml)
+  3. [`argument_specs.yaml`](https://github.com/foundata/ansible-collection-acmesh/blob/main/roles/run/meta/argument_specs.yml) (source of truth)
+* Ansible role: `foundata.sshd.run`:
+  1. [`README.md` with generated variable documentation](https://github.com/foundata/ansible-collection-sshd/blob/main/roles/run/README.md#role-variables)
+  2. [`defaults/main.yml` entry point with generated YAML comments](https://github.com/foundata/ansible-collection-sshd/blob/main/roles/run/defaults/main.yml)
+  3. [`argument_specs.yaml`](https://github.com/foundata/ansible-collection-sshd/blob/main/roles/run/meta/argument_specs.yml) (source of truth)
+
+
+
+### Screenshots<a id="demo-screenshots"></a>
+
+[<img src="./assets/images/screenshots/ansible-docsmith-cli-01-help.png" alt="Screenshot: DocSmith CLI, help" height="128" />](./assets/images/screenshots/ansible-docsmith-cli-01-help.png)
+&#160;
+[<img src="./assets/images/screenshots/ansible-docsmith-cli-sshd-01-validate.png" alt="Screenshot: DocSmith CLI, validate; Results for foundata.sshd.run" height="128" />](./assets/images/screenshots/ansible-docsmith-cli-sshd-01-validate.png)
+&#160;
+[<img src="./assets/images/screenshots/ansible-docsmith-cli-sshd-02-generate-dry-run.png" alt="Screenshot: DocSmith CLI, generate dry run; Results for foundata.sshd.run" height="128" />](./assets/images/screenshots/ansible-docsmith-cli-sshd-02-generate-dry-run.png)
+&#160;
+[<img src="./assets/images/screenshots/ansible-docsmith-cli-sshd-03-generate.png" alt="Screenshot: DocSmith CLI, generate; Results for foundata.sshd.run" height="128" />](./assets/images/screenshots/ansible-docsmith-cli-sshd-03-generate.png)
+&#160;
+[<img src="./assets/images/screenshots/ansible-docsmith-readme-sshd-01-toc.png" alt="Screenshot: Part of a README.md ToC, generated with DocSmith" height="128" />](./assets/images/screenshots/ansible-docsmith-readme-sshd-01-toc.png)
+&#160;
+[<img src="./assets/images/screenshots/ansible-docsmith-readme-sshd-02-main.png" alt="Screenshot: Part of a README.md's main content describing role variables, generated with DocSmith" height="128" />](./assets/images/screenshots/ansible-docsmith-readme-sshd-02-main.png)
+
 
 ## Features<a id="features"></a>
 
-Main features:
-
-* **Sensible defaults** – metadata, version checks, and directory structures already configured.
-* **Linting and testing built-in** – ready for [`ansible-lint`](https://ansible.readthedocs.io/projects/lint/) and [Molecule](https://ansible.readthedocs.io/projects/molecule/)
-* **Platform-aware design** – clear separation for OS-specific variables and tasks.
-* **Changelog tooling** – conventions and helpers for transparent release notes.
-* **Reproducible structure** - faster bootstrapping, fewer style debates. Focus on automation logic instead of boilerplate.
+- **Efficient and simple:** Uses the `argument_specs.yml` from [Ansible's built‑in role argument validation](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#role-argument-validation) as the single source of truth, generating human‑readable documentation in multiple places while maintaining just one file.
+- **Built-in validation:** Verifies that argument specs are complete, correct, and in sync with entry-point `defaults/`.
+- **Automation‑friendly:** Works seamlessly in CI/CD pipelines and pre‑commit hooks.
+- **Supports Markdown and reStructuredText**.
 
 
-## Examples<a id="examples"></a>
+## Installation<a id="installation"></a>
 
-Some collections built using these skeletons:
+[![PyPI package version](https://img.shields.io/pypi/v/ansible-docsmith.svg?logo=pypi)](https://pypi.org/project/ansible-docsmith)
 
-* `foundata.acmesh`:
-  * GitHub: https://github.com/foundata/ansible-collection-acmesh
-  * Galaxy: https://galaxy.ansible.com/ui/repo/published/foundata/acmesh/
-* `foundata.sshd`:
-  * GitHub: https://github.com/foundata/ansible-collection-sshd
-  * Galaxy: https://galaxy.ansible.com/ui/repo/published/foundata/sshd/
-* `foundata.postfix`:
-  * GitHub: https://github.com/foundata/ansible-collection-postfix
-  * Galaxy: https://galaxy.ansible.com/ui/repo/published/foundata/postfix/
+DocSmith needs Python ≥ v3.11. It is available on [PyPI](https://pypi.org/project/ansible-docsmith/) and can be installed with the package manager of your choice.
 
-Check their project structures for inspiration and reference.
+**Using [`uv`](https://docs.astral.sh/uv/getting-started/installation/) (recommended):**
+
+```bash
+uv tool install ansible-docsmith
+```
+
+**Using `pip` or `pipx`:**
+
+```bash
+pip install ansible-docsmith
+pipx install ansible-docsmith
+```
 
 
 ## Usage<a id="usage"></a>
 
-1. **Clone this repository and check out the latest release:**
-   ```bash
-   # Get the version number of the latest release
-   version="$(curl -s -L https://api.github.com/repos/foundata/ansible-skeletons/releases/latest | jq -r '.tag_name' | sed -e 's/^v//g')"
-   printf '%s\n' "${version}"
+### Preparations<a id="usage-preparations"></a>
 
-   # Clone and check out the latest release (you can switch versions anytime using "git checkout vX.Y.Z")
-   git clone https://github.com/foundata/ansible-skeletons.git -b "v${version}"
+1. If not already existing, simply **create an `argument_specs.yml`** for [Ansible’s role argument validation](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_reuse_roles.html#role-argument-validation). Try to add `description:` to your variables. The more complete your specification, the better the argument validation and documentation.
+2. **Add simple markers in your role's `README.md`** where DocSmith shall maintain the human-readable documentation. All content between these markers will be removed and updated on each `ansible-docsmith generate` run:
+   ```markdown
+   <!-- ANSIBLE DOCSMITH MAIN START -->
+   <!-- ANSIBLE DOCSMITH MAIN END -->
    ```
-   <br>
-2. **Use `ansible-galaxy` to initialize a new collection or stand-alone role**. Provide the path to the desired skeleton, along with any necessary variable values (or let `ansible-galaxy` use default values), and specify a name for your new resource.<br>Examples:
-   ```bash
-   # Ensure ansible-galaxy is available and navigate to the cloned repository from step one
-   ansible-galaxy --version
-   cd ./path/to/ansible-skeletons
-
-   # Create a new collection called "namespace.new_collection" based on the "collection_default" skeleton
-   # Syntax: ansible-galaxy collection init --collection-skeleton <path> <extra variables> <name of the new collection including namespace>
-   ansible-galaxy collection init \
-      --collection-skeleton "./collection_default" \
-      --extra-var '{"authors": ["FIXME User <user@example.com>"]}' \
-      --extra-var "company='FIXME your organization'" \
-      --extra-var "description='Manage FIXME.'" \
-      --extra-var "repository='https://FIXME.example.com/repo/'" \
-      --extra-var "issues='https://FIXME.example.com/repo/issues/'" \
-      --extra-var "homepage='https://FIXME.example.com'" \
-      --extra-var "min_ansible_version='2.16.0'" \
-      --extra-var "version='0.1.0'" \
-      "namespace.new_collection"
-
-   # Create a new stand-alone role called "new_role" based on the "role_default" skeleton
-   # Syntax: ansible-galaxy role init --collection-skeleton <path> <extra variables> <name of the new role>
-   ansible-galaxy role init \
-      --role-skeleton "./role_default" \
-      --extra-var "author='FIXME User <user@example.com>'" \
-      --extra-var "company='FIXME your organization'" \
-      --extra-var "description='Manage FIXME.'" \
-      --extra-var "repository_url='https://FIXME.example.com/repo/'" \
-      --extra-var "issue_tracker_url='https://FIXME.example.com/repo/issues/'" \
-      --extra-var "homepage_url='https://FIXME.example.com'" \
-      --extra-var "min_ansible_version='2.16.0'" \
-      "new_role"
+   where the variable descriptions shall be placed (mandatory) and
+   ```markdown
+   <!-- ANSIBLE DOCSMITH TOC START -->
+   <!-- ANSIBLE DOCSMITH TOC END -->
    ```
-   Additional Notes:
-     - Names of namespaces, collections or roles must follow [some](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections_structure.html#roles-directory) [rules](https://docs.ansible.com/ansible/latest/dev_guide/developing_collections_creating.html#naming-your-collection) and should consist of `a-z`, `0-9` and `_` only.
-     - Adapt the directory name of the `--[collection|role]-skeleton` parameter value if you want to use another skeleton than `[collection|role_]default`. You can find a description of the available skeletons below.
-3. Each created collection or stand-alone role includes a **`FIXME.md` file in its root directory** with further instructions about what to change to your needs.
+   for putting list entries for a table of contents (ToC) (optional).
+
+That's it. The entry-point variable files below the `/defaults` directory of your role do *not* need additional preparations. The tool will automatically (re)place formatted inline comment blocks above variables defined there.
+
+Example files:
+
+* Markdown: [`README.md`](./ansibledocsmith/tests/fixtures/example-role-simple-toc/README.md?plain=1)
+* reStructuredText: [`README.rst`](./ansibledocsmith/tests/fixtures/example-role-simple-toc-rst/README.rst?plain=1) (difference to Markdown: `.. ` comments, `.. contents:: **Table of Contents**` directive)
 
 
+### Generate or update documentation<a id="usage-generate"></a>
 
-## Provided skeletons<a id="content"></a>
+Basic usage:
 
-The following list provides an overview of the available skeletons. You can also explore the subdirectories of this repository to examine their code. However, keep in mind that some parts may be difficult to read, as they contain [Jinja](https://palletsprojects.com/p/jinja/) code. This Jinja code is processed by `ansible-galaxy [collection|role]` with it's templating to generate the final files.
+```bash
+# Safely preview changes without writing to files. No modifications are made.
+ansible-docsmith generate /path/to/role --dry-run
 
+# Generate / update README.md and comments in entry-point files (like defaults/main.yml)
+ansible-docsmith generate /path/to/role
 
-### `collection_default`<a id="collection_default"></a>
+# Show help
+ansible-docsmith --help
+ansible-docsmith generate --help
+```
 
-A general purpose skeleton to create new Ansible collection for [package and ship](https://redhat-cop.github.io/automation-good-practices/#_package_roles_in_an_ansible_collection_to_simplify_distribution_and_consumption) a `run`-role. Main features:
+Advanced parameters:
 
-* Init tasks to check the environment and usage:
-  * Role argument validation
-  * Check for minimum Ansible version and supported operating systems / platform.
-  * Automatic gathering of role-specific facts (useful with `gather_facts: false`)
-  * Automatic search and include for [platform-specific variables](https://redhat-cop.github.io/automation-good-practices/#_platform_specific_variables).
-* Separation of logical task groups, automatic include for[ platform-specific tasks](https://redhat-cop.github.io/automation-good-practices/#_platform_specific_tasks).
-* Passes `ansible-lint --profile production --strict`.
-* [`antsibull-changelog`](https://ansible.readthedocs.io/projects/antsibull-changelog/changelogs/) support.
-* [Molecule](https://ansible.readthedocs.io/projects/molecule/) support with a default scenario using [Podman](https://podman.io/docs/installation) and several [integration test targets](https://github.com/orgs/foundata/repositories?q=oci-*-itt).
+```bash
+# Generate / update only the README.md, skip comments for variables in
+# entry-point files (like defaults/main.yml).
+ansible-docsmith generate /path/to/role --no-defaults
 
+# Generate / update only the comments in entry-point files (like defaults/main.yml),
+# skip README.md
+ansible-docsmith generate /path/to/role --no-readme
 
-
-### `role_default`<a id="role_default"></a>
-
-A general purpose skeleton to create new Ansible stand-alone role. Main features:
-
-* Init tasks to check the environment and usage:
-  * Role argument validation
-  * Check for minimum Ansible version and supported operating systems / platform.
-  * Automatic gathering of role-specific facts (useful with `gather_facts: false`)
-  * Automatic search and include for [platform-specific variables](https://redhat-cop.github.io/automation-good-practices/#_platform_specific_variables).
-* Separation of logical task groups, automatic include for [platform-specific tasks](https://redhat-cop.github.io/automation-good-practices/#_platform_specific_tasks).
-* Passes `ansible-lint --profile production --strict`.
-* [Molecule](https://ansible.readthedocs.io/projects/molecule/) support with a default scenario using [Podman](https://podman.io/docs/installation) and several [integration test targets](https://github.com/orgs/foundata/repositories?q=oci-*-itt).
+# Verbose output for debugging
+ansible-docsmith generate /path/to/role --verbose
+```
 
 
+### Validate `argument_specs.yml` and `/defaults`<a id="usage-validate"></a>
 
-## Compatibility<a id="compatibility"></a>
+```bash
+# Validate argument_specs.yml structure as well as role entry-point files in /defaults/.
+# These validation checks include:
+#
+# - ERROR:   Variables present in "defaults/" but missing from "argument_specs.yml".
+# - ERROR:   Variables with "default:" values defined in "argument_specs.yml" but
+#            missing from the entry-point files in "defaults/".
+# - WARNING: Unknown keys in "argument_specs.yml".
+# - NOTICE:  Potential mismatches, where variables are listed in "argument_specs.yml"
+#            but not in "defaults/", for user awareness.
+ansible-docsmith validate /path/to/role
 
-The skeletons are designed to be compatible with all [supported](https://docs.ansible.com/ansible/latest/reference_appendices/release_and_maintenance.html#ansible-core-support-matrix) versions of `ansible-galaxy` and `ansible` that are not end-of-life and still receive patches. While older versions should also work as long as `ansible-core` is >= v2.16, we no might not explicitly test them.
+# Show help
+ansible-docsmith --help
+ansible-docsmith validate --help
 
-The skeletons were explicitly tested with `ansible-galaxy` from the following `ansible` versions (descending order):
-
-* `ansible-galaxy 2.19`
-  * `ansible-galaxy [core 2.19.2]`
-* `ansible-galaxy 2.18`
-  * `ansible-galaxy [core 2.18.9]`
-  * `ansible-galaxy [core 2.18.8]`
-  * `ansible-galaxy [core 2.18.4]`
-  * `ansible-galaxy [core 2.18.3]`
-  * `ansible-galaxy [core 2.18.2]`
-  * `ansible-galaxy [core 2.18.1]`
-
-The following versions are known to be problematic:
-
-* `ansible-galaxy [core 2.16.4]` ("ERROR! Invalid collection name" when passing `authors` as extra-var)
+# Verbose output for debugging
+ansible-docsmith validate /path/to/role --verbose
+```
 
 
+### Custom templates<a id="usage-custom-templates"></a>
 
-## Contributing<a id="contributing"></a>
+You can customize the generated Markdown output by providing your own [Jinja2 template](https://jinja.palletsprojects.com/en/stable/templates/). The rendered content will be inserted between the `<!-- ANSIBLE DOCSMITH MAIN START -->` and `<!-- ANSIBLE DOCSMITH MAIN END -->` markers in the role's `README.md` file.
 
-See [`CONTRIBUTING.md`](./CONTRIBUTING.md) if you want to get involved.
+```bash
+# Use a custom template for README generation
+ansible-docsmith generate /path/to/role --template-readme /path/to/custom-template.md.j2
 
-This project's functionality is mature, so there might be little activity on the repository in the future. Don't get fooled by this, the project is under active maintenance and used on daily basis by the maintainers.
+# Combined with other options
+ansible-docsmith generate /path/to/role --template-readme ./templates/my-readme.md.j2 --dry-run
+```
 
+Template files must use the `.j2` extension (for example, `simple-readme.md.j2`) and follow Jinja2 syntax. Below is a basic example:
+
+```jinja
+# {{ role_name | title }} Ansible Role
+
+{% if has_options %}
+## Role variables
+
+{% for var_name, var_spec in options.items() %}
+- **{{ var_name }}** ({{ var_spec.type }}): {{ var_spec.description }}
+{% endfor %}
+{% else %}
+The role has no configurable variables.
+{% endif %}
+```
+
+**Check out the [`readme/default.md.j2`](./ansibledocsmith/src/ansible_docsmith/templates/readme/default.md.j2)** template that DocSmith uses as an advanced example with conditional sections. Copying this file is often the easiest way to get started.
+
+**Most important available template variables:**
+- `role_name`: Name of the Ansible role.
+- `has_options`: Boolean indicating if variables are defined.
+- `options`: Dictionary of all role variables with their specifications.
+- `entry_points`: List of all Ansible role entry-point names.
+
+**Most important available Jinja2 filters:**
+- `ansible_escape`: Escapes characters for Ansible/YAML contexts.
+- `code_escape`: Escapes content for code blocks.
+- `format_default`: Formats default values appropriately.
+- `format_description`: Formats multi-line descriptions.
+- `format_table_description`: Formats descriptions for table cells.
+
+If you are creative, you may even maintain non-obvious parts of your `README.md` between the markers:
+
+~~~jinja
+## Example Playbook
+
+```yaml
+[...]
+- ansible.builtin.include_role:
+    name: "{{ role_name }}"
+  vars:
+{% for var_name, var_spec in options.items() %}
+{% if var_spec.default is not none %}
+    {{ var_name }}: {{ var_spec.default }}
+{% else %}
+    # {{ var_name }}: # {{ var_spec.description }}
+{% endif %}
+{% endfor %}
+```
+
+## Author Information
+
+{% if primary_spec.author %}
+{% for author in primary_spec.author %}
+
+- {{ author }}
+{% endfor %}
+{% endif %}
+~~~
 
 
 ## Licensing, copyright<a id="licensing-copyright"></a>
 
 <!--REUSE-IgnoreStart-->
-Copyright (c) 2020, 2023-2025 foundata GmbH (https://foundata.com)
+Copyright (c) 2025 foundata GmbH (https://foundata.com)
 
 This project is licensed under the GNU General Public License v3.0 or later (SPDX-License-Identifier: `GPL-3.0-or-later`), see [`LICENSES/GPL-3.0-or-later.txt`](./LICENSES/GPL-3.0-or-later.txt) for the full text.
 
 The [`REUSE.toml`](./REUSE.toml) file provides detailed licensing and copyright information in a human- and machine-readable format. This includes parts that may be subject to different licensing or usage terms, such as third-party components. The repository conforms to the [REUSE specification](https://reuse.software/spec/). You can use [`reuse spdx`](https://reuse.readthedocs.io/en/latest/readme.html#cli) to create a [SPDX software bill of materials (SBOM)](https://en.wikipedia.org/wiki/Software_Package_Data_Exchange).
 <!--REUSE-IgnoreEnd-->
 
-[![REUSE status](https://api.reuse.software/badge/github.com/foundata/ansible-skeletons)](https://api.reuse.software/info/github.com/foundata/ansible-skeletons)
+[![REUSE status](https://api.reuse.software/badge/github.com/foundata/ansible-docsmith)](https://api.reuse.software/info/github.com/foundata/ansible-docsmith)
 
 
 ### Trademarks<a id="trademarks"></a>
@@ -210,6 +270,6 @@ The [`REUSE.toml`](./REUSE.toml) file provides detailed licensing and copyright 
 
 ## Author information<a id="author-information"></a>
 
-This project was created and is maintained by [foundata](https://foundata.com/). If you like it, you might [buy us a coffee](https://buy-me-a.coffee/ansible-skeletons/).
+This project was created and is maintained by [foundata](https://foundata.com/). If you like it, you might [buy us a coffee](https://buy-me-a.coffee/ansible-docsmith/).
 
-Ansible Skeletons is *not* associated with [Red Hat](https://www.redhat.com/) nor the [Ansible project](https://ansible.com/).
+The Ansible DocSmith project is *not* associated with [Red Hat](https://www.redhat.com/) nor the [Ansible project](https://ansible.com/).
